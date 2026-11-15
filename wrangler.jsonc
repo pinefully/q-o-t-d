@@ -1,0 +1,31 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "qotd-bot",
+  "main": "src/index.js",
+  // Matches the locally installed runtime; bump periodically.
+  "compatibility_date": "2026-11-13",
+
+  // Run the send job at the top of every hour (UTC).
+  "triggers": {
+    "crons": ["0 * * * *"]
+  },
+
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "qotd",
+      "database_id": "79afe3a2-98c4-4ecb-80fa-37d96b597985",
+      "migrations_dir": "migrations"
+    }
+  ],
+
+  // Secrets (set with `npx wrangler secret put <NAME>`, never written here):
+  //   BOT_TOKEN       token from @BotFather
+  //   WEBHOOK_SECRET  random string Telegram sends back so we know requests are real
+
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1,
+    "traces": { "enabled": true }
+  }
+}

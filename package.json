@@ -1,0 +1,26 @@
+{
+  "name": "qotd-bot",
+  "version": "1.0.0",
+  "description": "_A free and simple way to grow your relationships over Telegram_",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "node scripts/check-questions.mjs && wrangler deploy",
+    "check": "node scripts/check-questions.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pinefully/q-o-t-d.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/pinefully/q-o-t-d/issues"
+  },
+  "homepage": "https://github.com/pinefully/q-o-t-d#readme",
+  "private": true,
+  "devDependencies": {
+    "wrangler": "^4.162.0"
+  }
+}

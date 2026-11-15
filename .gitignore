@@ -1,0 +1,10 @@
+node_modules/
+.wrangler/
+
+# Secrets: never commit
+.dev.vars
+.env
+.env.*
+credentials/
+*.pem
+*.key
