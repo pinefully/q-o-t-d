@@ -47,12 +47,21 @@ for (const name of ["BOT_TOKEN", "WEBHOOK_SECRET"]) {
 }
 
 // 3. Tell Telegram where to send updates, and which ones we care about.
-async function tg(method, payload) {
-  const res = await fetch(`https://api.telegram.org/bot${vars.BOT_TOKEN}/${method}`, {
-    method: "POST",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify(payload),
-  });
+async function tg(method, payload, attempt = 1) {
+  let res;
+  try {
+    res = await fetch(`https://api.telegram.org/bot${vars.BOT_TOKEN}/${method}`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+  } catch (err) {
+    // Network blips (e.g. ECONNRESET): wait a moment and retry up to 3 times.
+    if (attempt >= 3) throw err;
+    console.log(`  ${method}: network error (${err.cause?.code ?? err.message}), retrying…`);
+    await new Promise((r) => setTimeout(r, 1000 * attempt));
+    return tg(method, payload, attempt + 1);
+  }
   const data = await res.json();
   if (!data.ok) throw new Error(`${method}: ${data.description}`);
   return data.result;
